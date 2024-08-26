@@ -6,22 +6,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/patients")
 public class PatientController {
-
     @Autowired
     private PatientService patientService;
 
-    @PostMapping("/register")
-    public ResponseEntity<Patient> registerPatient(@RequestBody Patient patient) {
-        Patient registeredPatient = patientService.registerPatient(patient);
-        return ResponseEntity.ok(registeredPatient);
+    @GetMapping
+    public ResponseEntity<List<Patient>> getAllPatients() {
+        return ResponseEntity.ok(patientService.getAllPatients());
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Patient> loginPatient(@RequestBody Patient patient) {
-        Patient loggedInPatient = patientService.loginPatient(patient.getEmail(), patient.getPassword());
-        return ResponseEntity.ok(loggedInPatient);
+    @GetMapping("/{id}")
+    public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
+        return ResponseEntity.ok(patientService.getPatientById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<Patient> savePatient(@RequestBody Patient patient) {
+        return ResponseEntity.ok(patientService.savePatient(patient));
     }
 }

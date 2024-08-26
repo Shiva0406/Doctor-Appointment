@@ -11,20 +11,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/appointments")
 public class AppointmentController {
-
     @Autowired
     private AppointmentService appointmentService;
 
     @PostMapping("/book")
     public ResponseEntity<Appointment> bookAppointment(@RequestBody Appointment appointment) {
-        Appointment bookedAppointment = appointmentService.bookAppointment(appointment);
-        return ResponseEntity.ok(bookedAppointment);
+        return ResponseEntity.ok(appointmentService.bookAppointment(appointment));
     }
 
     @GetMapping("/patient/{patientId}")
     public ResponseEntity<List<Appointment>> getAppointmentsByPatientId(@PathVariable Long patientId) {
-        List<Appointment> appointments = appointmentService.getAppointmentsByPatientId(patientId);
-        return ResponseEntity.ok(appointments);
+        return ResponseEntity.ok(appointmentService.getAppointmentsByPatientId(patientId));
     }
-}
 
+    // Additional endpoints
+}

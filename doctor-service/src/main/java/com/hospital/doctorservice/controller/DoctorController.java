@@ -15,15 +15,50 @@ public class DoctorController {
     @Autowired
     private DoctorService doctorService;
 
-    @GetMapping("/specialization/{specialization}")
-    public ResponseEntity<List<Doctor>> getDoctorsBySpecialization(@PathVariable String specialization) {
-        List<Doctor> doctors = doctorService.getDoctorsBySpecialization(specialization);
-        return ResponseEntity.ok(doctors);
+    // Register a new doctor
+    @PostMapping("/register")
+    public ResponseEntity<Doctor> registerDoctor(@RequestBody Doctor doctor) {
+        Doctor savedDoctor = doctorService.registerDoctor(doctor);
+        return ResponseEntity.ok(savedDoctor);
     }
 
+    // Get a doctor by ID
     @GetMapping("/{id}")
     public ResponseEntity<Doctor> getDoctorById(@PathVariable Long id) {
         Doctor doctor = doctorService.getDoctorById(id);
-        return ResponseEntity.ok(doctor);
+        if (doctor != null) {
+            return ResponseEntity.ok(doctor);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Get all doctors
+    @GetMapping
+    public ResponseEntity<List<Doctor>> getAllDoctors() {
+        List<Doctor> doctors = doctorService.getAllDoctors();
+        return ResponseEntity.ok(doctors);
+    }
+
+    // Update a doctor's information
+    @PutMapping("/{id}")
+    public ResponseEntity<Doctor> updateDoctor(@PathVariable Long id, @RequestBody Doctor doctor) {
+        Doctor updatedDoctor = doctorService.updateDoctor(id, doctor);
+        if (updatedDoctor != null) {
+            return ResponseEntity.ok(updatedDoctor);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Delete a doctor
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDoctor(@PathVariable Long id) {
+        boolean isDeleted = doctorService.deleteDoctor(id);
+        if (isDeleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

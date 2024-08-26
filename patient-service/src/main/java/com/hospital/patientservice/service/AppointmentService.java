@@ -9,7 +9,6 @@ import java.util.List;
 
 @Service
 public class AppointmentService {
-
     @Autowired
     private AppointmentRepository appointmentRepository;
 
@@ -20,4 +19,6 @@ public class AppointmentService {
     public List<Appointment> getAppointmentsByPatientId(Long patientId) {
         return appointmentRepository.findByPatientId(patientId);
     }
+
+    // Additional service methods
 }
